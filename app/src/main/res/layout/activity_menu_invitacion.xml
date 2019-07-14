@@ -8,45 +8,45 @@
 
 
     <ImageView
-        android:id="@+id/imgRegistrar"
+        android:id="@+id/imgIndividual"
         android:layout_width="346dp"
         android:layout_height="241dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="50dp"
         android:layout_marginRight="40dp"
-        app:srcCompat="@drawable/clipboard" />
+        app:srcCompat="@drawable/usuario" />
 
     <TextView
-        android:id="@+id/txtRegistrar"
+        android:id="@+id/txtIndividual"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_marginTop="300dp"
         android:fontFamily="serif"
         android:gravity="center_vertical"
-        android:text="Registrar"
+        android:text="Invitación Individual"
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imgInvitar"
+        android:id="@+id/imgGrupal"
         android:layout_width="346dp"
         android:layout_height="241dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="410dp"
         android:layout_marginRight="40dp"
-        app:srcCompat="@drawable/invitar" />
+        app:srcCompat="@drawable/grupo" />
 
     <TextView
-        android:id="@+id/txtInvitar"
+        android:id="@+id/txtGrupal"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_marginTop="650dp"
         android:fontFamily="serif"
         android:gravity="center_vertical"
-        android:text="Invitar"
+        android:text="Invitación Grupal"
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:textSize="34sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -57,7 +57,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/shapeRegistrar"
+            android:id="@+id/shapeIndividual"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:layout_marginLeft="30dp"
@@ -68,7 +68,7 @@
             android:background="@drawable/fondo_img_menu" />
 
         <TextView
-            android:id="@+id/shapeInvitar"
+            android:id="@+id/shapeGrupal"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:layout_marginLeft="30dp"

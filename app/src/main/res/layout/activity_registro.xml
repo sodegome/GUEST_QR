@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +18,7 @@
         <TextView
             android:id="@+id/txtDatos"
             android:layout_width="match_parent"
-            android:layout_height="103dp"
+            android:layout_height="115dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
             android:text="Datos Personales"
@@ -26,7 +29,7 @@
 
 
         <EditText
-            android:id="@+id/txtNombre"
+            android:id="@+id/txtUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -35,7 +38,7 @@
             android:background="@drawable/input_black"
             android:hint="Nombre"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#fff"
@@ -50,9 +53,8 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/input_black"
             android:hint="Apellido"
-            android:inputType="textPassword"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
@@ -67,97 +69,74 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/input_black"
             android:hint="Celular"
-            android:inputType="textPassword"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
             android:textColorHint="#BCB7AD" />
 
-        <TextView
-            android:id="@+id/txtVehiculo"
-            android:layout_width="match_parent"
-            android:layout_height="83dp"
-            android:fontFamily="serif"
-            android:gravity="center_vertical"
-            android:text="Datos del Vehículo"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="36sp"
-            android:textStyle="bold" />
-
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:text="Tiene vehículo propio"
-            android:textColor="#232220"
-            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/txtPlaca"
+            android:id="@+id/txtMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/input_black"
-            android:hint="Placa"
+            android:hint="E-mail"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
             android:textColorHint="#BCB7AD" />
 
-        <EditText
-            android:id="@+id/txtMarca"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/input_black"
-            android:hint="Marca"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="#232220"
-            android:textColorHint="#BCB7AD" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtTipoId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="Tipo de Identificación:"
+                android:textColor="#232220"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spnTipoId"
+                android:layout_width="151dp"
+                android:layout_height="52dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="left"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="#232220" />
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/txtModelo"
+            android:id="@+id/txtIdentificacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/input_black"
-            android:hint="Modelo"
+            android:hint="Identificación"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="#232220"
-            android:textColorHint="#BCB7AD" />
-
-        <EditText
-            android:id="@+id/txtColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/input_black"
-            android:hint="Color"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"

@@ -21,7 +21,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/txtDatos"
+            android:id="@+id/txtBienvenidos"
             android:layout_width="match_parent"
             android:layout_height="189dp"
             android:fontFamily="serif"
@@ -35,7 +35,7 @@
 
 
         <EditText
-            android:id="@+id/txtNombre"
+            android:id="@+id/txtUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -52,7 +52,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtcelular"
+            android:id="@+id/txtPassword"
             android:hint="Contraseña"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
