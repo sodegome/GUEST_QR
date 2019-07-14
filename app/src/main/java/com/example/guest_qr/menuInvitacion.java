@@ -26,6 +26,15 @@ public class menuInvitacion extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
+        //Llamada a la invitacion individual
+        shapeIndividual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), invitacionGrupal.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
 

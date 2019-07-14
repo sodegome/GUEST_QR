@@ -12,19 +12,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="35dp" />
 
         <TextView
             android:id="@+id/txtInvIndividual"
             android:layout_width="match_parent"
-            android:layout_height="103dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
             android:text="Invitación Individual"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="36sp"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -60,6 +66,22 @@
                 android:textColor="#232220" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/txtPlaca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/input_black"
+            android:hint="Placa del vehículo"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#232220"
+            android:textColorHint="#BCB7AD" />
+
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="match_parent"
@@ -75,7 +97,6 @@
             android:id="@+id/txtValidez"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
