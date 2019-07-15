@@ -9,12 +9,15 @@ import java.util.List;
 import android.app.ListActivity;
 import android.widget.ArrayAdapter;
 
-public class listaInvitados extends AppCompatActivity {
+public class listaInvitados extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_invitados);
+        ArrayAdapter<Invitado> adapter = new InteractiveArrayAdapter(this,
+                getModel());
+        setListAdapter(adapter);
+        //setContentView(R.layout.activity_lista_invitados);
     }
 
     private List<Invitado> getModel() {
