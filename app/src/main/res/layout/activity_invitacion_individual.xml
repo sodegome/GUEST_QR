@@ -41,7 +41,6 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="start"
                 android:paddingLeft="20dp"
-                android:paddingTop="20dp"
                 android:paddingBottom="10dp"
                 android:text="Invitado:"
                 android:textColor="#232220"
@@ -50,12 +49,11 @@
             <Spinner
                 android:id="@+id/spnTipoId"
                 android:layout_width="257dp"
-                android:layout_height="51dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:paddingTop="20dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="#232220" />

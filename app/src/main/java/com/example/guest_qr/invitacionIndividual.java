@@ -20,9 +20,6 @@ public class invitacionIndividual extends AppCompatActivity {
     private static final String CERO = "0";
     private static final String DOS_PUNTOS = ":";
 
-    //Calendario para obtener fecha & hora
-    public final Calendar c = Calendar.getInstance();
-
     //Variables para obtener la hora y minutos que se permite el ingreso
     final int horaDesde = fechaDesde.get(Calendar.HOUR_OF_DAY);
     final int minutoDesde = fechaDesde.get(Calendar.MINUTE);

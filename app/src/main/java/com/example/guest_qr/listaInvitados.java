@@ -30,6 +30,20 @@ public class listaInvitados extends ListActivity {
         list.add(get("Invitado 6"));
         list.add(get("Invitado 7"));
         list.add(get("Invitado 8"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
+        list.add(get("Invitado 9"));
         // Initially select one of the items
         list.get(1).setSelected(true);
         return list;
