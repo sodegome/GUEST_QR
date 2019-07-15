@@ -74,7 +74,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="145dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:background="@drawable/fondo_img_menu" />
     </LinearLayout>

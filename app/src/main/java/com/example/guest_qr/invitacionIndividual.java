@@ -36,11 +36,11 @@ public class invitacionIndividual extends AppCompatActivity {
         setContentView(R.layout.activity_invitacion_individual);
 
         //Referencia de los controles
-        txtFechaDesde = findViewById(R.id.txtFechaDesde);
-        txtFechaHasta = findViewById(R.id.txtFechaHasta);
-        txtHoraDesde = findViewById(R.id.txtHoraDesde);
-        txtHoraHasta = findViewById(R.id.txtHoraHasta);
-        btnRegistro = findViewById(R.id.btnRegistro);
+        txtFechaDesde = (EditText) findViewById(R.id.txtFechaDesde);
+        txtFechaHasta = (EditText) findViewById(R.id.txtFechaHasta);
+        txtHoraDesde = (EditText) findViewById(R.id.txtHoraDesde);
+        txtHoraHasta = (EditText) findViewById(R.id.txtHoraHasta);
+        btnRegistro = (Button) findViewById(R.id.btnRegistro);
 
         //Llamada al menu
         btnRegistro.setOnClickListener(new View.OnClickListener() {

@@ -25,7 +25,7 @@
             android:text="Invitación Individual"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="34sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -71,7 +71,7 @@
             android:background="@drawable/input_black"
             android:hint="Placa del vehículo"
             android:paddingLeft="20dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
@@ -98,21 +98,21 @@
             android:text="Validez de la invitación"
             android:textAlignment="inherit"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtRecordatorio"
             android:layout_width="match_parent"
-            android:layout_height="82dp"
+            android:layout_height="54dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
             android:text="Recuerde que la invitación  a un usuario no frecuente puede tener validez hasta de 24 horas. *"
             android:textAlignment="inherit"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
