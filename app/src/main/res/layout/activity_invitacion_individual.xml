@@ -15,14 +15,9 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
-
-        <TextView
             android:id="@+id/txtInvIndividual"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="75dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:fontFamily="serif"
@@ -69,7 +64,7 @@
         <EditText
             android:id="@+id/txtPlaca"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
@@ -96,7 +91,7 @@
         <TextView
             android:id="@+id/txtValidez"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
@@ -109,9 +104,10 @@
         <TextView
             android:id="@+id/txtRecordatorio"
             android:layout_width="match_parent"
-            android:layout_height="94dp"
+            android:layout_height="82dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
             android:text="Recuerde que la invitación  a un usuario no frecuente puede tener validez hasta de 24 horas. *"
@@ -123,7 +119,7 @@
         <EditText
             android:id="@+id/txtFechaDesde"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
@@ -141,56 +137,56 @@
         <EditText
             android:id="@+id/txtHoraDesde"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:inputType="date"
             android:background="@drawable/input_black"
+            android:focusable="false"
             android:hint="Hora desde"
+            android:inputType="date"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
-            android:textColorHint="#BCB7AD"
-            android:focusable="false"/>
+            android:textColorHint="#BCB7AD" />
 
         <EditText
             android:id="@+id/txtFechaHasta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:inputType="date"
             android:background="@drawable/input_black"
+            android:focusable="false"
             android:hint="Fecha hasta"
+            android:inputType="date"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
-            android:textColorHint="#BCB7AD"
-            android:focusable="false"/>
+            android:textColorHint="#BCB7AD" />
 
         <EditText
             android:id="@+id/txtHoraHasta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:inputType="date"
             android:background="@drawable/input_black"
+            android:focusable="false"
             android:hint="Hora hasta"
+            android:inputType="date"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:textColor="#232220"
-            android:textColorHint="#BCB7AD"
-            android:focusable="false"/>
+            android:textColorHint="#BCB7AD" />
 
 
 

@@ -28,7 +28,7 @@ public class menuInvitacion extends AppCompatActivity {
         });
 
         //Llamada a la invitacion individual
-        shapeIndividual.setOnClickListener(new View.OnClickListener() {
+        shapeGrupal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), invitacionGrupal.class);

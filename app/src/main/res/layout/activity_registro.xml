@@ -15,14 +15,9 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <TextView
             android:id="@+id/txtDatos"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="85dp"
             android:fontFamily="serif"
             android:gravity="center_vertical"
             android:text="Datos Personales"
