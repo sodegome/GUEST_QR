@@ -14,12 +14,14 @@ public class listaInvitados extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayAdapter<Invitado> adapter = new InteractiveArrayAdapter(this,
+        setContentView(R.layout.activity_lista_invitados);
+        /*ArrayAdapter<Invitado> adapter = new InteractiveArrayAdapter(this,
                 getModel());
-        setListAdapter(adapter);
-        //setContentView(R.layout.activity_lista_invitados);
+        setListAdapter(adapter);*/
+
     }
 
+    /*
     private List<Invitado> getModel() {
         List<Invitado> list = new ArrayList<Invitado>();
         list.add(get("Invitado 1"));
@@ -52,5 +54,5 @@ public class listaInvitados extends ListActivity {
     private Invitado get(String s) {
         return new Invitado(s);
     }
-
+*/
 }

@@ -12,8 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import java.util.Arrays;
+import java.util.List;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 public class invitacionGrupal extends AppCompatActivity {
     EditText txtFechaDesde, txtFechaHasta, txtHoraDesde, txtHoraHasta;
+    TextView txtInvitados;
     Button btnInvitados, btnRegistro;
 
     //Instancias de calendarios
@@ -29,6 +35,18 @@ public class invitacionGrupal extends AppCompatActivity {
     final int horaHasta = fechaDesde.get(Calendar.HOUR_OF_DAY);
     final int minutoHasta = fechaDesde.get(Calendar.MINUTE);
 
+    //Dialogo de alerta para seleccionar los invitados
+    AlertDialog.Builder alertdialogbuilder;
+
+    String[] listaInvitados = new String[]{"Invitado 1", "Invitado 2",
+            "Invitado 3","Invitado 4","Invitado 5", "Invitado 6",
+            "Invitado 7"};
+
+    List<String> ItemsIntoList;
+
+    boolean[] Selectedtruefalse = new boolean[]{false,false,
+            false,false,false,false,false};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +58,57 @@ public class invitacionGrupal extends AppCompatActivity {
         txtHoraDesde = (EditText) findViewById(R.id.txtHoraDesde);
         txtHoraHasta = (EditText) findViewById(R.id.txtHoraHasta);
         btnInvitados = (Button) findViewById(R.id.btnInvitados);
+        txtInvitados = (TextView) findViewById(R.id.txtInvitados);
 
-        //Llamada  a registrar
+        //Llamada  a la lista de invitados
         btnInvitados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), listaInvitados.class);
-                startActivityForResult(intent, 0);
+                txtInvitados.setText("");
+
+                alertdialogbuilder = new AlertDialog.Builder(invitacionGrupal.this);
+
+                ItemsIntoList = Arrays.asList(listaInvitados);
+
+                alertdialogbuilder.setMultiChoiceItems(listaInvitados, Selectedtruefalse, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+                    }
+
+                });
+                alertdialogbuilder.setCancelable(false);
+
+                alertdialogbuilder.setTitle("Select Subjects Here");
+
+                alertdialogbuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        int a = 0;
+                        while(a < Selectedtruefalse.length)
+                        {
+                            boolean value = Selectedtruefalse[a];
+
+                            if(value){
+                                txtInvitados.setText(txtInvitados.getText() + ItemsIntoList.get(a) + "\n");
+                            }
+
+                            a++;
+                        }
+
+                    }
+                });
+
+                alertdialogbuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog dialog = alertdialogbuilder.create();
+
+                dialog.show();
             }
         });
 
