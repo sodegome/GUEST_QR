@@ -1,5 +1,6 @@
 package com.example.guest_qr;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.*;
@@ -10,6 +11,7 @@ import java.text.*;
 
 public class invitacionIndividual extends AppCompatActivity {
     EditText txtFechaDesde, txtFechaHasta, txtHoraDesde, txtHoraHasta;
+    Button btnRegistro;
 
     //Instancias de calendarios
     Calendar fechaDesde = Calendar.getInstance();
@@ -38,7 +40,16 @@ public class invitacionIndividual extends AppCompatActivity {
         txtFechaHasta = findViewById(R.id.txtFechaHasta);
         txtHoraDesde = findViewById(R.id.txtHoraDesde);
         txtHoraHasta = findViewById(R.id.txtHoraHasta);
+        btnRegistro = findViewById(R.id.btnRegistro);
 
+        //Llamada al menu
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), listaInvitados.class);
+                startActivityForResult(intent, 0);
+            }
+        });
         //Fecha Desde
         txtFechaDesde.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +87,7 @@ public class invitacionIndividual extends AppCompatActivity {
         });
 
     }
+
 
     //Setear los valores de la fecha desde
     DatePickerDialog.OnDateSetListener fDesde = new DatePickerDialog.OnDateSetListener() {
