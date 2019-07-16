@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Referencia a los controles
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+
 
         //Obtener valores de los editText
         usuario = txtUsuario.getText().toString();
         password = txtPassword.getText().toString();
 
+        /*
         //Llamada al menu
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent (v.getContext(), menu.class);
                 startActivityForResult(intent, 0);
             }
-        });
+        });*/
     }
 
     public void ingresar(View view){
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+
         Map<String, String> params = new HashMap();
         params.put("username", usuario);
         params.put("password", password);

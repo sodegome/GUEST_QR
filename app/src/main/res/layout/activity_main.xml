@@ -79,6 +79,7 @@
             android:layout_marginBottom="30dp"
             android:background="@drawable/btn_fondo_color"
             android:elevation="5dp"
+            android:onClick="ingresar"
             android:text="Inciar sesión"
             android:textColor="#fff"
             android:textSize="16sp" />
