@@ -38,6 +38,7 @@ public class invitacionGrupal extends AppCompatActivity {
     //Dialogo de alerta para seleccionar los invitados
     AlertDialog.Builder alertdialogbuilder;
 
+    //Lista de los invitados traidos de la bd
     String[] listaInvitados = new String[]{"Invitado 1", "Invitado 2",
             "Invitado 3","Invitado 4","Invitado 5", "Invitado 6",
             "Invitado 7"};
@@ -79,7 +80,7 @@ public class invitacionGrupal extends AppCompatActivity {
                 });
                 alertdialogbuilder.setCancelable(false);
 
-                alertdialogbuilder.setTitle("Select Subjects Here");
+                alertdialogbuilder.setTitle("Seleccione sus invitados");
 
                 alertdialogbuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -100,7 +101,7 @@ public class invitacionGrupal extends AppCompatActivity {
                     }
                 });
 
-                alertdialogbuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                alertdialogbuilder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }

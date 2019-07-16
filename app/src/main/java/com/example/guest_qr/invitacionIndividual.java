@@ -39,6 +39,7 @@ public class invitacionIndividual extends AppCompatActivity {
         txtHoraHasta = (EditText) findViewById(R.id.txtHoraHasta);
         btnRegistro = (Button) findViewById(R.id.btnRegistro);
 
+        /*
         //Llamada al menu
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +47,8 @@ public class invitacionIndividual extends AppCompatActivity {
                 Intent intent = new Intent (v.getContext(), listaInvitados.class);
                 startActivityForResult(intent, 0);
             }
-        });
+        });*/
+
         //Fecha Desde
         txtFechaDesde.setOnClickListener(new View.OnClickListener() {
             @Override
