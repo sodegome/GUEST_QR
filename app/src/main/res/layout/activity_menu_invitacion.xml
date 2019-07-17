@@ -20,7 +20,7 @@
         android:id="@+id/txtIndividual"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="225dp"
         android:fontFamily="serif"
         android:gravity="center_vertical"
         android:text="Invitación Individual"
@@ -33,7 +33,7 @@
         android:layout_width="306dp"
         android:layout_height="180dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="310dp"
+        android:layout_marginTop="305dp"
         android:layout_marginRight="40dp"
         app:srcCompat="@drawable/grupo" />
 
@@ -41,7 +41,7 @@
         android:id="@+id/txtGrupal"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginTop="480dp"
+        android:layout_marginTop="475dp"
         android:fontFamily="serif"
         android:gravity="center_vertical"
         android:text="Invitación Grupal"
