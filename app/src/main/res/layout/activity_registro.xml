@@ -28,7 +28,7 @@
 
 
         <EditText
-            android:id="@+id/txtUsuario"
+            android:id="@+id/txtNombre"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
