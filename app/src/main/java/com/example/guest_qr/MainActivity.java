@@ -37,32 +37,33 @@ public class MainActivity extends AppCompatActivity {
 
         //Referencia a los controles
         txtUsuario = (EditText) findViewById(R.id.txtNombre);
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
 
 
-        //Obtener valores de los editText
-        usuario = txtUsuario.getText().toString();
-        password = txtPassword.getText().toString();
+
 
         /*
         //Llamada al menu
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), menu.class);
-                startActivityForResult(intent, 0);
+                ingresar(usuario, password);
             }
         });*/
     }
 
-    public void ingresar(View view){
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
+    public void ingresar(View v){
         btnLogin = (Button) findViewById(R.id.btnLogin);
+
+        //Obtener valores de los editText
+        usuario = txtUsuario.getText().toString();
+        password = txtPassword.getText().toString();
 
         Map<String, String> params = new HashMap();
         params.put("username", usuario);
         params.put("password", password);
         JSONObject parametros = new JSONObject(params);
-        String login_url = "http://http://52.67.115.36/api/user/login";
+        String login_url = "http://52.67.115.36/api/user/login";
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST, login_url, parametros,
                 new Response.Listener<JSONObject>() {

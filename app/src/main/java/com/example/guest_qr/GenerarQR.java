@@ -46,7 +46,7 @@ public class GenerarQR extends AppCompatActivity {
         setContentView(R.layout.activity_generar_qr);
 
         //eInput = findViewById(R.id.etInput);
-        btnCreateCode = findViewById(R.id.btnCreate);
+        //btnCreateCode = findViewById(R.id.btnCreate);
         imageView = findViewById(R.id.imageView);
         btnShare = findViewById(R.id.btnShare);
 
@@ -63,8 +63,6 @@ public class GenerarQR extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
 
 
         btnShare.setOnClickListener(new View.OnClickListener() {
@@ -129,4 +127,6 @@ public class GenerarQR extends AppCompatActivity {
         return uuid.replace("-","");
 
     }
+
+
 }
