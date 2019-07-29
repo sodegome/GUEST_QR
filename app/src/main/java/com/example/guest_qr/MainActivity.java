@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             token = response.getString("token");
                             Intent menuPrincipal = new
-                                    Intent(getBaseContext(), menu.class);
+                                    Intent(getBaseContext(), menuIzquierdo.class);
                             menuPrincipal.putExtra("token", token);
                             startActivity(menuPrincipal);
                         } catch (Exception e) {

@@ -1,13 +1,17 @@
-package com.example.guest_qr;
+package com.example.guest_qr.Fragmentos;
+
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.*;
 
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +29,14 @@ import com.android.volley.AuthFailureError;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Registro extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import com.example.guest_qr.R;
+import com.example.guest_qr.Registro;
+import com.example.guest_qr.*;
+
+import java.util.List;
+
+
+public class registro extends Fragment implements AdapterView.OnItemSelectedListener {
     Spinner spnTipoId;
     Button btnRegistro;
     EditText txtNombre, txtApellido, txtCelular, txtMail, txtIdentificacion;
@@ -38,33 +49,48 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
     String tipoId;
 
 
+    public registro() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
-        mQueue = Volley.newRequestQueue(this);
 
-        //Obtiene el token de la pantalla anterior
-        Intent login = getIntent();
-        this.token = (String)login.getExtras().get("token");
+        getActivity().setTitle("Registro");
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_registro, container, false);
+
+        mQueue = Volley.newRequestQueue(getActivity());
+
+        //Obtiene el token de la activity
+        menuIzquierdo activity = (menuIzquierdo) getActivity();
+        token = activity.getToken();
 
         //Referencia a los controles
-        btnRegistro = (Button) findViewById(R.id.btnRegistro);
+        btnRegistro = v.findViewById(R.id.btnRegistro);
 
         //Referencia a los controles
-        txtNombre = (EditText) findViewById(R.id.txtNombre);
-        txtApellido = (EditText) findViewById(R.id.txtApellido);
-        txtCelular = (EditText) findViewById(R.id.txtCelular);
-        txtMail = (EditText) findViewById(R.id.txtMail);
-        txtIdentificacion = (EditText) findViewById(R.id.txtIdentificacion);
+        txtNombre = v.findViewById(R.id.txtNombre);
+        txtApellido = v.findViewById(R.id.txtApellido);
+        txtCelular = v.findViewById(R.id.txtCelular);
+        txtMail = v.findViewById(R.id.txtMail);
+        txtIdentificacion = v.findViewById(R.id.txtIdentificacion);
 
         //Llenar spinner del tipo de Identificacion
-        spnTipoId = (Spinner) findViewById(R.id.spnTipoId);
+        spnTipoId = v.findViewById(R.id.spnTipoId);
         spnTipoId.setOnItemSelectedListener(this);
         listaTipo = new ArrayList<>();
         strTipos = new String[]  {"Cédula","RUC","Pasaporte"};
         Collections.addAll(listaTipo, strTipos);
-        comboAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, listaTipo);
+        comboAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, listaTipo);
         //Cargo el spinner con los datos
         spnTipoId.setAdapter(comboAdapter);
 
@@ -83,7 +109,10 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
             }
         });
+
+        return v;
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -99,11 +128,9 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
+
     public void posInvitado() {
-        //Obtener los valores de los txtBoxs
-
         Map<String, String> params = new HashMap();
-
 
         params.put("name", txtNombre.getText().toString());
         params.put("last_name", txtApellido.getText().toString());
@@ -114,14 +141,14 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
         JSONObject parametros = new JSONObject(params);
 
-        String login_url = "http://52.67.115.36/api/nuevoinvitado";
+        String url = "http://52.67.115.36/api/nuevoinvitado";
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, login_url, parametros,
+                Request.Method.POST, url, parametros,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         AlertDialog alertDialog = new
-                                AlertDialog.Builder(Registro.this).create();
+                                AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Excelente");
                         alertDialog.setMessage("Se registró correctamente su invitado");
                         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -129,10 +156,11 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                                     public void onClick(DialogInterface dialog, int
                                             which) {
                                         dialog.dismiss();
-                                        Intent menuPrincipal = new
-                                                Intent(getBaseContext(), menu.class);
-                                        menuPrincipal.putExtra("token", token);
-                                        startActivity(menuPrincipal);
+                                        home fragment = new home();
+                                        getActivity().getSupportFragmentManager().beginTransaction()
+                                                .replace(R.id.content_menu_izquierdo,fragment)
+                                                .addToBackStack(null)
+                                                .commit();
                                     }
                                 });
                         alertDialog.show();
@@ -143,7 +171,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog alertDialog = new
-                        AlertDialog.Builder(Registro.this).create();
+                        AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Alerta");
                 alertDialog.setMessage("Error al registrar el invitado");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -188,7 +216,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
         if(mensaje != ""){
             AlertDialog alertDialog = new
-                    AlertDialog.Builder(Registro.this).create();
+                    AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("¡Error!");
             alertDialog.setMessage("No se puede registrar su invitado debido a: \n" + mensaje);
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
