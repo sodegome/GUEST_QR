@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
@@ -108,12 +109,15 @@ public class codigoQR extends Fragment {
                 Uri contentUri = FileProvider.getUriForFile(getActivity().getApplicationContext(), "com.example.guest_qr.fileprovider", newFile);
 
                 if (contentUri != null) {
+                    /*
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                     shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
                     shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                    startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+                    startActivity(Intent.createChooser(shareIntent, "Choose an app"));*/
+
+                    sendImageWhatsApp("0982390658","imagen.png");
                 }
             }
         });
@@ -126,6 +130,20 @@ public class codigoQR extends Fragment {
         uuid = uuid.substring(0,6);
         return uuid.replace("-","");
 
+    }
+
+    private void sendImageWhatsApp(String phoneNumber, String nombreImagen) {
+        try {
+            Intent intent = new Intent("android.intent.action.MAIN");
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(Environment.getExternalStorageDirectory() + "/" + nombreImagen));
+            intent.putExtra("jid", phoneNumber + "@s.whatsapp.net"); //numero telefonico sin prefijo "+"!
+            intent.setPackage("com.whatsapp");
+            startActivity(intent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            System.out.println("No tiene instalado whatsapp");
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
