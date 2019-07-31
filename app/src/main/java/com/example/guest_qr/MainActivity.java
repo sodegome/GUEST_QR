@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog alertDialog = new
                         AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle("Alerta");
-                alertDialog.setMessage("Usuario o contraseña incorrectas. Ingrese nuevamente.");
+                alertDialog.setMessage(error.toString()+" Usuario o contraseña incorrectas. Ingrese nuevamente.");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int

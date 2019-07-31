@@ -9,13 +9,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Menu principal" />
         <item
+            android:id="@+id/nav_invitados"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Ver invitados" />
+        <!--<item
             android:id="@+id/nav_invitaciones_activas"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Invitaciones activas" />
         <item
             android:id="@+id/nav_historial"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Ver historial de invitaciones" />
+            android:title="Ver historial de invitaciones" />-->
 
     </group>
 

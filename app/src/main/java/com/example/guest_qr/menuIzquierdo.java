@@ -118,13 +118,16 @@ public class menuIzquierdo extends AppCompatActivity
 
         if (id == R.id.nav_menu) {
             fragment = new home();
-//            Intent intent = new Intent(getBaseContext(), DrawerMenuActivity.class);
-//            startActivity(intent);
 
-        } else if (id == R.id.nav_invitaciones_activas) {
-            fragment = new registro();
+        } else if (id == R.id.nav_invitados) {
+        fragment = new Invitados();
 
         }
+        /*else if (id == R.id.nav_invitaciones_activas) {
+            fragment = new registro();
+
+        }*/
+
         else if (id == R.id.nav_logout) {
             logout();
 

@@ -109,15 +109,15 @@ public class codigoQR extends Fragment {
                 Uri contentUri = FileProvider.getUriForFile(getActivity().getApplicationContext(), "com.example.guest_qr.fileprovider", newFile);
 
                 if (contentUri != null) {
-                    /*
+
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                     shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
                     shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                    startActivity(Intent.createChooser(shareIntent, "Choose an app"));*/
+                    startActivity(Intent.createChooser(shareIntent, "Choose an app"));
 
-                    sendImageWhatsApp("0982390658","imagen.png");
+                    //sendImageWhatsApp("0982390658","imagen.png");
                 }
             }
         });
@@ -128,7 +128,8 @@ public class codigoQR extends Fragment {
     public String generateString() {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid.substring(0,6);
-        return uuid.replace("-","");
+        //return uuid.replace("-","");
+        return "abcdef";
 
     }
 

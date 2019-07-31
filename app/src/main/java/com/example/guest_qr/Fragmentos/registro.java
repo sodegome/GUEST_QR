@@ -29,6 +29,7 @@ import com.android.volley.AuthFailureError;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.guest_qr.Clases.Invitados;
 import com.example.guest_qr.R;
 import com.example.guest_qr.Registro;
 import com.example.guest_qr.*;

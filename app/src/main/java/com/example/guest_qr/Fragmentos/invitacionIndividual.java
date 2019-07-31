@@ -3,30 +3,73 @@ package com.example.guest_qr.Fragmentos;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.CompoundButton.*;
+import android.graphics.Color;
+import java.text.DateFormat;
+import java.util.Date;
 
+import org.json.*;
+import org.json.JSONObject;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.android.volley.AuthFailureError;
+
+import com.example.guest_qr.Clases.Invitados;
 import com.example.guest_qr.GenerarQR;
 import com.example.guest_qr.R;
+import com.example.guest_qr.menuIzquierdo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-public class invitacionIndividual extends Fragment {
-
-    EditText txtFechaDesde, txtFechaHasta, txtHoraDesde, txtHoraHasta;
+public class invitacionIndividual extends Fragment implements AdapterView.OnItemSelectedListener{
+    Spinner spnInvitados;
+    EditText txtFechaDesde, txtFechaHasta, txtHoraDesde, txtHoraHasta, txtPlaca;
     Button btnRegistro;
+    CheckBox chBxFrecuente;
+
+    String serialQR;
+
+    private RequestQueue mQueue;
+    private String token = "";
+
+    String[] strInvitados;
+    String[] strIdInvitados;
+    List<String> listaInvitados;
+    ArrayAdapter<String> comboAdapter;
+    String invitadoSeleccionado;
+    String idInvitado;
 
     //Instancias de calendarios
     Calendar fechaDesde = Calendar.getInstance();
@@ -55,6 +98,7 @@ public class invitacionIndividual extends Fragment {
 
         getActivity().setTitle("Invitación");
 
+
     }
 
     @Override
@@ -67,13 +111,59 @@ public class invitacionIndividual extends Fragment {
         txtFechaHasta = v.findViewById(R.id.txtFechaHasta);
         txtHoraDesde = v.findViewById(R.id.txtHoraDesde);
         txtHoraHasta = v. findViewById(R.id.txtHoraHasta);
+
+        mQueue = Volley.newRequestQueue(getActivity());
+
+        //Obtiene el token de la activity
+        menuIzquierdo activity = (menuIzquierdo) getActivity();
+        token = activity.getToken();
+
+        //Referencia a los controles
+        chBxFrecuente = v.findViewById(R.id.chBxFrecuente);
+        txtPlaca = v.findViewById(R.id.txtApellido);
         btnRegistro = v.findViewById(R.id.btnRegistro);
 
+        //Referencia y llenar el spinner con los invitados
+        spnInvitados = v.findViewById(R.id.spnInvitados);
+        spnInvitados.setOnItemSelectedListener(this);
+        obtenerInvitados();
 
+        //SerialQR
+        serialQR = generateString();
+
+
+        //Control del checkbox para usuario frecuente
+        chBxFrecuente.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    txtFechaDesde.setFocusable(false);
+                    txtFechaDesde.setEnabled(false);
+
+                    DateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = new Date();
+                    System.out.println(dateFormat1.format(date));
+                    txtFechaDesde.setText(dateFormat1.format(date));
+                } else {
+                    txtFechaDesde.setFocusableInTouchMode(true);
+                    txtFechaDesde.setEnabled(true);
+                    txtFechaDesde.setText("");
+                }
+            }
+        });
         //Llamada a generar QR
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Invitado seleccionado: "+invitadoSeleccionado);
+                System.out.println("id invitado : "+idInvitado);
+
+
+                System.out.println("Hora desde completa "+  txtHoraDesde.getText().toString().substring(0,5));
+                System.out.println("Hora hasata completa "+txtHoraHasta.getText().toString().substring(0,5));
+                System.out.println("Fecha desde "+ formatoFechaDesde() );
+                System.out.println("Fecha hasta "+ formatoFechaHasta() );
+
                 codigoQR fragment = new codigoQR();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_menu_izquierdo,fragment)
@@ -121,6 +211,7 @@ public class invitacionIndividual extends Fragment {
         return v;
     }
 
+
     //Setear los valores de la fecha desde
     DatePickerDialog.OnDateSetListener fDesde = new DatePickerDialog.OnDateSetListener() {
 
@@ -141,6 +232,13 @@ public class invitacionIndividual extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat(formatoDeFecha, Locale.US);
 
         txtFechaDesde.setText(sdf.format(fechaDesde.getTime()));
+    }
+
+    private String formatoFechaDesde() {
+        String formatoDeFecha = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(formatoDeFecha, Locale.US);
+
+        return sdf.format(fechaDesde.getTime());
     }
 
     //Setear los valores de la fecha hasta
@@ -164,6 +262,14 @@ public class invitacionIndividual extends Fragment {
 
         txtFechaHasta.setText(sdf.format(fechaHasta.getTime()));
     }
+
+    private String formatoFechaHasta() {
+        String formatoDeFecha = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(formatoDeFecha, Locale.US);
+
+        return sdf.format(fechaHasta.getTime());
+    }
+
 
 
     //Obtener hora desde
@@ -221,11 +327,152 @@ public class invitacionIndividual extends Fragment {
         recogerHora.show();
     }
 
+    //Obtiene la lista de los invitados y llena el spinner
+    public void obtenerInvitados(){
+        String url = "http://52.67.115.36/api/invitados";
+        JsonArrayRequest request = new JsonArrayRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        strInvitados = new String[response.length()];
+                        strIdInvitados = new String[response.length()];
+                        listaInvitados = new ArrayList<>();
+
+                        for(int i=0; i<response.length(); i++) {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String invitado = jsonObject.getString("name") +" "+ jsonObject.getString("last_name");
+                                strInvitados[i] = invitado;
+                                strIdInvitados[i] = jsonObject.getString("id");
+                                System.out.println("Invitado: "+invitado);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        Collections.addAll(listaInvitados, strInvitados);
+                        comboAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, listaInvitados);
+                        //Cargo el spinner con los datos
+                        spnInvitados.setAdapter(comboAdapter);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Error: "+error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                System.out.println(token);
+                return params;
+            }
+        };
+        mQueue.add(request);
+    }
+
+
+    //Seleccionar el invitado
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spnInvitados:
+                //Almaceno el invitado seleccionado
+                invitadoSeleccionado = strInvitados[position];
+                idInvitado = strIdInvitados[position];
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {}
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    //Generar el serial para la invitacion
+    public String generateString() {
+        String uuid = UUID.randomUUID().toString();
+        uuid = uuid.substring(0,6);
+        return uuid.replace("-","");
+
+    }
+
+
+    //genera la invitación
+    public void crearInvitacion(){
+        Map<String, String> params = new HashMap();
+
+        params.put("placa_vehiculo", txtPlaca.getText().toString());
+        params.put("fecha_desde", txtFechaDesde.getText().toString());
+        params.put("fecha_hasta", txtFechaHasta.getText().toString());
+        params.put("hora_desde", txtHoraDesde.getText().toString());
+        params.put("hora_hasta", txtHoraHasta.getText().toString());
+
+        JSONObject parametros = new JSONObject(params);
+
+        String url = "http://52.67.115.36/api/nuevaInvitacion/"+idInvitado;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST, url, parametros,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        AlertDialog alertDialog = new
+                                AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Excelente");
+                        alertDialog.setMessage("Se registró correctamente su invitación");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int
+                                            which) {
+                                        dialog.dismiss();
+                                        codigoQR fragment = new codigoQR();
+                                        getActivity().getSupportFragmentManager().beginTransaction()
+                                                .replace(R.id.content_menu_izquierdo,fragment)
+                                                .addToBackStack(null)
+                                                .commit();
+                                    }
+                                });
+                        alertDialog.show();
+                        System.out.println(response);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog alertDialog = new
+                        AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Alerta");
+                alertDialog.setMessage("Error al crear la invitación");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int
+                                    which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                System.out.println(token);
+                return params;
+            }
+        };
+        mQueue.add(request);
     }
 
 
