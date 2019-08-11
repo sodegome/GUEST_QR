@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                             token = response.getString("token");
                             Intent menuPrincipal = new
                                     Intent(getBaseContext(), menuIzquierdo.class);
+                            menuPrincipal.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             menuPrincipal.putExtra("token", token);
                             startActivity(menuPrincipal);
                         } catch (Exception e) {

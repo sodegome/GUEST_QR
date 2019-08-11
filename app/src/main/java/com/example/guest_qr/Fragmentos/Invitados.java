@@ -1,12 +1,15 @@
 package com.example.guest_qr.Fragmentos;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -72,11 +75,6 @@ public class Invitados extends Fragment {
 
         lista_invitados = new HashMap<>();
         obtenerInvitados();
-
-
-
-
-
 
 
 

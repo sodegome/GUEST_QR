@@ -120,7 +120,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
 
         //Referencia a los controles
         chBxFrecuente = v.findViewById(R.id.chBxFrecuente);
-        txtPlaca = v.findViewById(R.id.txtApellido);
+        txtPlaca = v.findViewById(R.id.txtPlaca);
         btnRegistro = v.findViewById(R.id.btnRegistro);
 
         //Referencia y llenar el spinner con los invitados
@@ -158,17 +158,18 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                 System.out.println("Invitado seleccionado: "+invitadoSeleccionado);
                 System.out.println("id invitado : "+idInvitado);
 
+                String fechaDesde = formatoFechaDesde() + " " + txtHoraDesde.getText().toString();
+                String fechaHasta = formatoFechaHasta() + " " + txtHoraHasta.getText().toString();
+                System.out.println("Fecha desde: "+fechaDesde);
+                System.out.println("Fecha hasta: "+fechaHasta);
+                crearInvitacion(idInvitado, fechaDesde, fechaHasta);
 
-                System.out.println("Hora desde completa "+  txtHoraDesde.getText().toString().substring(0,5));
-                System.out.println("Hora hasata completa "+txtHoraHasta.getText().toString().substring(0,5));
-                System.out.println("Fecha desde "+ formatoFechaDesde() );
-                System.out.println("Fecha hasta "+ formatoFechaHasta() );
-
+/*
                 codigoQR fragment = new codigoQR();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_menu_izquierdo,fragment)
                         .addToBackStack(null)
-                        .commit();
+                        .commit();*/
             }
         });
 
@@ -281,15 +282,9 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                 String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
-                String AM_PM;
-                if(hourOfDay < 12) {
-                    AM_PM = "a.m.";
-                } else {
-                    AM_PM = "p.m.";
-                }
+
                 //Muestro la hora con el formato deseado
-                txtHoraDesde.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                txtHoraDesde.setText(horaFormateada + DOS_PUNTOS + minutoFormateado);
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
@@ -309,15 +304,9 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                 String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
-                String AM_PM;
-                if(hourOfDay < 12) {
-                    AM_PM = "a.m.";
-                } else {
-                    AM_PM = "p.m.";
-                }
+
                 //Muestro la hora con el formato deseado
-                txtHoraHasta.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                txtHoraHasta.setText(horaFormateada + DOS_PUNTOS + minutoFormateado);
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
@@ -410,18 +399,19 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
 
 
     //genera la invitación
-    public void crearInvitacion(){
+    public void crearInvitacion(String idInvitado, String FechaDesde, String FechaHasta){
         Map<String, String> params = new HashMap();
 
+        params.put("serial", generateString());
         params.put("placa_vehiculo", txtPlaca.getText().toString());
-        params.put("fecha_desde", txtFechaDesde.getText().toString());
-        params.put("fecha_hasta", txtFechaHasta.getText().toString());
-        params.put("hora_desde", txtHoraDesde.getText().toString());
-        params.put("hora_hasta", txtHoraHasta.getText().toString());
+        params.put("fecha_desde", FechaDesde);
+        params.put("fecha_hasta", FechaHasta);
+        params.put("state", "A");
+        params.put("frecuencia", "");
 
         JSONObject parametros = new JSONObject(params);
 
-        String url = "http://52.67.115.36/api/nuevaInvitacion/"+idInvitado;
+        String url = "http://52.67.115.36/api/nuevainvitacion/"+idInvitado;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST, url, parametros,
                 new Response.Listener<JSONObject>() {
