@@ -40,9 +40,13 @@ public class Invitados extends Fragment {
     ListView lstInvitados;
     HashMap<String,String> lista_invitados;
     String[] strInvitados;
+    String[] strIdInvitados;
+    String[] strNumInvitados;
 
     private RequestQueue mQueue;
     private String token = "";
+
+    String idInvitado, nombreInvitado, numeroInvitado;
 
     private OnFragmentInteractionListener mListener;
 
@@ -76,7 +80,31 @@ public class Invitados extends Fragment {
         lista_invitados = new HashMap<>();
         obtenerInvitados();
 
+        lstInvitados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (adapterView.getId()) {
+                    case R.id.lstInvitados:
+                        idInvitado = strIdInvitados[i];
+                        nombreInvitado = strInvitados[i];
+                        numeroInvitado = strNumInvitados[i];
 
+                        Invitaciones fragment = new Invitaciones();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idInvitado", idInvitado);
+                        bundle.putString("nombreInvitado", nombreInvitado);
+                        bundle.putString("numInvitado", numeroInvitado);
+                        fragment.setArguments(bundle);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content_menu_izquierdo,fragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                        break;
+
+                }
+            }
+        });
 
         return v;
     }
@@ -88,7 +116,9 @@ public class Invitados extends Fragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
+                        strIdInvitados = new String[response.length()];
+                        strInvitados = new String[response.length()];
+                        strNumInvitados = new String[response.length()];
 
                         for(int i=0; i<response.length(); i++) {
                             try {
@@ -97,7 +127,11 @@ public class Invitados extends Fragment {
                                 String celular = "Celular: " + jsonObject.getString("cell");
                                 String email = "Email: "+jsonObject.getString("email");
 
-                                lista_invitados.put(invitado,celular+" - "+email);
+                                strIdInvitados[i] = jsonObject.getString("id");
+                                strInvitados[i] = invitado;
+                                strNumInvitados[i] = celular;
+
+                                lista_invitados.put(invitado,celular+"-"+email);
 
                                 System.out.println("Invitado: "+invitado);
 
@@ -110,8 +144,8 @@ public class Invitados extends Fragment {
                         List<HashMap<String,String>> listInvitados = new ArrayList<>();
 
                         SimpleAdapter adapter = new SimpleAdapter(getActivity(),listInvitados,R.layout.list_invitados,
-                                new String[]{"First line","Second line"},
-                                new int[] {R.id.txtItem, R.id.txtSubItem});
+                                new String[]{"First line","Second line", "Third line"},
+                                new int[] {R.id.txtItem, R.id.txtCell, R.id.txtCorreo});
 
                         Iterator it = lista_invitados.entrySet().iterator();
 
@@ -119,13 +153,18 @@ public class Invitados extends Fragment {
                             HashMap<String,String> resultMap = new HashMap<>();
                             Map.Entry map = (Map.Entry)it.next();
 
+                            String[] partes = map.getValue().toString().split("-");
+
                             resultMap.put("First line",map.getKey().toString());
-                            resultMap.put("Second line",map.getValue().toString());
+                            resultMap.put("Second line",partes[0]);
+                            resultMap.put("Third line",partes[1]);
 
                             listInvitados.add(resultMap);
                         }
 
                         lstInvitados.setAdapter(adapter);
+
+
 
                     }
                 }, new Response.ErrorListener() {

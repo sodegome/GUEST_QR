@@ -32,7 +32,7 @@ import java.util.UUID;
 public class codigoQR extends Fragment {
 
     private ImageView imageView;
-    private Button btnShare;
+    private Button btnShare, btnMenu;
 
     private Bitmap bitmap;
 
@@ -60,8 +60,11 @@ public class codigoQR extends Fragment {
 
         imageView = v.findViewById(R.id.imageView);
         btnShare = v.findViewById(R.id.btnShare);
+        btnMenu = v.findViewById(R.id.btnMenu);
 
-        String text = generateString();
+        Bundle bundle = this.getArguments();
+        String text = bundle.getString("qr");
+        final String numeroInvitado = bundle.getString("numInvitado");
 
         if(text != null){
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -80,6 +83,7 @@ public class codigoQR extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
+
                     /* Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("image/jpeg");
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -113,12 +117,14 @@ public class codigoQR extends Fragment {
                     Uri contentUri = FileProvider.getUriForFile(getContext(), "com.example.guest_qr.fileprovider", newFile);
 
                     if (contentUri != null) {
-                        Intent shareIntent = new Intent();
+
+                        /*Intent shareIntent = new Intent();
                         shareIntent.setAction(Intent.ACTION_SEND);
                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                         shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
                         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                        startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+                        startActivity(Intent.createChooser(shareIntent, "Choose an app"));*/
+                        sendImageWhatsApp(numeroInvitado.replaceFirst("0","593"), contentUri);
                     }
 
                 }
@@ -197,29 +203,75 @@ public class codigoQR extends Fragment {
                 }*/
             }
         });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                home fragment = new home();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_menu_izquierdo,fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
         // Inflate the layout for this fragment
         return v;
     }
 
-    public String generateString() {
+    /*public String generateString() {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid.substring(0,6);
         //return uuid.replace("-","");
         return "abcdef";
 
-    }
+    }*/
 
-    private void sendImageWhatsApp(String phoneNumber, String nombreImagen) {
+    private void sendImageWhatsApp(String phoneNumber, Uri contentUri) {
         try {
+
+/*            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+  */
             Intent intent = new Intent("android.intent.action.MAIN");
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(Environment.getExternalStorageDirectory() + "/" + nombreImagen));
+            intent.putExtra(Intent.EXTRA_TEXT, "Esta invitación puede ser usada para ingresar a Las Cumbres.");
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri);
             intent.putExtra("jid", phoneNumber + "@s.whatsapp.net"); //numero telefonico sin prefijo "+"!
             intent.setPackage("com.whatsapp");
             startActivity(intent);
         } catch (android.content.ActivityNotFoundException ex) {
-            //Toast.makeText(getApplicationContext(), "Whatsapp no esta instalado.", Toast.LENGTH_LONG).show();
+            AlertDialog alertDialog = new
+                    AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage("No se encuentra la aplicación whatsapp");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int
+                                which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } catch (Exception e){
+            AlertDialog alertDialog = new
+                    AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage(e.toString());
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int
+                                which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+
         }
     }
 

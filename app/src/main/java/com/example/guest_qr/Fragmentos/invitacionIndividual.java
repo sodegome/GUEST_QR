@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.CompoundButton.*;
 import android.graphics.Color;
@@ -56,20 +57,22 @@ import java.util.UUID;
 public class invitacionIndividual extends Fragment implements AdapterView.OnItemSelectedListener{
     Spinner spnInvitados;
     EditText txtFechaDesde, txtFechaHasta, txtHoraDesde, txtHoraHasta, txtPlaca;
+    TextView txtInicio;
     Button btnRegistro;
     CheckBox chBxFrecuente;
 
     String serialQR;
+    boolean frecuente = false;
 
     private RequestQueue mQueue;
     private String token = "";
 
     String[] strInvitados;
     String[] strIdInvitados;
+    String[] strNumInvitados;
     List<String> listaInvitados;
     ArrayAdapter<String> comboAdapter;
-    String invitadoSeleccionado;
-    String idInvitado;
+    String invitadoSeleccionado, idInvitado, numeroInvitado;
 
     //Instancias de calendarios
     Calendar fechaDesde = Calendar.getInstance();
@@ -81,8 +84,8 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
     //Variables para obtener la hora y minutos que se permite el ingreso
     final int horaDesde = fechaDesde.get(Calendar.HOUR_OF_DAY);
     final int minutoDesde = fechaDesde.get(Calendar.MINUTE);
-    final int horaHasta = fechaDesde.get(Calendar.HOUR_OF_DAY);
-    final int minutoHasta = fechaDesde.get(Calendar.MINUTE);
+    final int horaHasta = fechaHasta.get(Calendar.HOUR_OF_DAY);
+    final int minutoHasta = fechaHasta.get(Calendar.MINUTE);
 
     private OnFragmentInteractionListener mListener;
 
@@ -119,6 +122,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
         token = activity.getToken();
 
         //Referencia a los controles
+        txtInicio = v.findViewById(R.id.txtInicio);
         chBxFrecuente = v.findViewById(R.id.chBxFrecuente);
         txtPlaca = v.findViewById(R.id.txtPlaca);
         btnRegistro = v.findViewById(R.id.btnRegistro);
@@ -131,45 +135,75 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
         //SerialQR
         serialQR = generateString();
 
-
         //Control del checkbox para usuario frecuente
         chBxFrecuente.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    txtFechaDesde.setFocusable(false);
-                    txtFechaDesde.setEnabled(false);
+                    frecuente = true;
+                    txtHoraDesde.setFocusable(false);
+                    txtHoraDesde.setEnabled(false);
+                    txtHoraHasta.setFocusable(false);
+                    txtHoraHasta.setEnabled(false);
 
-                    DateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = new Date();
-                    System.out.println(dateFormat1.format(date));
-                    txtFechaDesde.setText(dateFormat1.format(date));
+                    txtHoraDesde.getBackground().setAlpha(10);
+                    txtHoraDesde.setHintTextColor(Color.parseColor("#F0F5F5"));
+                    txtHoraHasta.getBackground().setAlpha(10);
+                    txtHoraHasta.setHintTextColor(Color.parseColor("#F0F5F5"));
+
+                    btnRegistro.setText("Siguiente ");
                 } else {
-                    txtFechaDesde.setFocusableInTouchMode(true);
-                    txtFechaDesde.setEnabled(true);
-                    txtFechaDesde.setText("");
+                    frecuente = false;
+                    txtHoraDesde.setFocusable(true);
+                    txtHoraDesde.setEnabled(true);
+                    txtHoraHasta.setFocusable(true);
+                    txtHoraHasta.setEnabled(true);
+
+                    txtHoraDesde.getBackground().setAlpha(100);
+                    txtHoraDesde.setHintTextColor(Color.parseColor("#BCB7AD"));
+                    txtHoraHasta.getBackground().setAlpha(100);
+                    txtHoraHasta.setHintTextColor(Color.parseColor("#BCB7AD"));
+
+                    btnRegistro.setText("Generar invitación");
+
                 }
             }
         });
+
+
         //Llamada a generar QR
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 System.out.println("Invitado seleccionado: "+invitadoSeleccionado);
                 System.out.println("id invitado : "+idInvitado);
 
-                String fechaDesde = formatoFechaDesde() + " " + txtHoraDesde.getText().toString();
-                String fechaHasta = formatoFechaHasta() + " " + txtHoraHasta.getText().toString();
-                System.out.println("Fecha desde: "+fechaDesde);
-                System.out.println("Fecha hasta: "+fechaHasta);
-                crearInvitacion(idInvitado, fechaDesde, fechaHasta);
+                String fechaDesde = formatoFechaDesde() + " " + validarHora(txtHoraDesde.getText().toString(), "I");
+                String fechaHasta = formatoFechaHasta() + " " + validarHora(txtHoraDesde.getText().toString(), "F");
 
-/*
-                codigoQR fragment = new codigoQR();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_menu_izquierdo,fragment)
-                        .addToBackStack(null)
-                        .commit();*/
+                if (frecuente == false){
+                    System.out.println("Fecha desde: "+fechaDesde);
+                    System.out.println("Fecha hasta: "+fechaHasta);
+                    crearInvitacion(idInvitado, numeroInvitado, fechaDesde, fechaHasta);
+
+                }
+                else{
+                    invitacionFrecuente fragment = new invitacionFrecuente();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qr", generateString());
+                    bundle.putString("idInvitado", idInvitado);
+                    bundle.putString("numInvitado", numeroInvitado);
+                    bundle.putString("placa_vehiculo", txtPlaca.getText().toString());
+                    bundle.putString("fecha_desde", fechaDesde);
+                    bundle.putString("fecha_hasta", fechaHasta);
+                    fragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content_menu_izquierdo,fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+
             }
         });
 
@@ -326,6 +360,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                     public void onResponse(JSONArray response) {
                         strInvitados = new String[response.length()];
                         strIdInvitados = new String[response.length()];
+                        strNumInvitados = new String[response.length()];
                         listaInvitados = new ArrayList<>();
 
                         for(int i=0; i<response.length(); i++) {
@@ -335,6 +370,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                                 strInvitados[i] = invitado;
                                 strIdInvitados[i] = jsonObject.getString("id");
                                 System.out.println("Invitado: "+invitado);
+                                strNumInvitados[i] = jsonObject.getString("cell");
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -374,6 +410,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                 //Almaceno el invitado seleccionado
                 invitadoSeleccionado = strInvitados[position];
                 idInvitado = strIdInvitados[position];
+                numeroInvitado = strNumInvitados[position];
                 break;
 
         }
@@ -399,10 +436,11 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
 
 
     //genera la invitación
-    public void crearInvitacion(String idInvitado, String FechaDesde, String FechaHasta){
+    public void crearInvitacion(String idInvitado, final String numeroInvitado, String FechaDesde, String FechaHasta){
         Map<String, String> params = new HashMap();
 
-        params.put("serial", generateString());
+        final String codigoQR = generateString();
+        params.put("serial", codigoQR);
         params.put("placa_vehiculo", txtPlaca.getText().toString());
         params.put("fecha_desde", FechaDesde);
         params.put("fecha_hasta", FechaHasta);
@@ -417,7 +455,7 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        AlertDialog alertDialog = new
+                        /*AlertDialog alertDialog = new
                                 AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Excelente");
                         alertDialog.setMessage("Se registró correctamente su invitación");
@@ -426,14 +464,20 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
                                     public void onClick(DialogInterface dialog, int
                                             which) {
                                         dialog.dismiss();
-                                        codigoQR fragment = new codigoQR();
-                                        getActivity().getSupportFragmentManager().beginTransaction()
-                                                .replace(R.id.content_menu_izquierdo,fragment)
-                                                .addToBackStack(null)
-                                                .commit();
+
                                     }
                                 });
-                        alertDialog.show();
+                        alertDialog.show();*/
+                        codigoQR fragment = new codigoQR();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("qr", codigoQR);
+                        bundle.putString("numInvitado", numeroInvitado);
+                        fragment.setArguments(bundle);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content_menu_izquierdo,fragment)
+                                .addToBackStack(null)
+                                .commit();
+
                         System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
@@ -465,6 +509,21 @@ public class invitacionIndividual extends Fragment implements AdapterView.OnItem
         mQueue.add(request);
     }
 
+    public String validarHora(String hora, String inicio_fin){
+        String horaFinal=hora;
+
+        if (inicio_fin == "I"){
+            if (hora.equals("")){
+                horaFinal="00:01";
+            }
+
+        }else if (inicio_fin == "F"){
+            if (hora.equals("")){
+                horaFinal="23:59";
+            }
+        }
+        return horaFinal;
+    }
 
 
     /**

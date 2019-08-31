@@ -81,11 +81,14 @@ public class menuIzquierdo extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+
+            getSupportFragmentManager().popBackStackImmediate();
+
         } else {
+
             super.onBackPressed();
+
         }
     }
 
@@ -153,6 +156,7 @@ public class menuIzquierdo extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         handle(item.getItemId());
         return true;
     }

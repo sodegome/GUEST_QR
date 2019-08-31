@@ -104,9 +104,12 @@ public class registro extends Fragment implements AdapterView.OnItemSelectedList
                 Intent intent = new Intent (v.getContext(), menu.class);
                 startActivityForResult(intent, 0);*/
 
-                if (validar()){
-                    posInvitado();
+                if (validarVacio()){
+                    if (validar()){
+                        posInvitado();
+                    }
                 }
+
 
             }
         });
@@ -220,6 +223,47 @@ public class registro extends Fragment implements AdapterView.OnItemSelectedList
                     AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("¡Error!");
             alertDialog.setMessage("No se puede registrar su invitado debido a: \n" + mensaje);
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int
+                                which) {
+                            dialog.dismiss();
+                        }
+                    });
+            System.out.println(mensaje);
+            alertDialog.show();
+            return false;
+        }
+        else{
+            System.out.println("True");
+            return true;
+        }
+    }
+
+    public boolean validarVacio(){
+        String celular = txtCelular.getText().toString();
+        String email = txtMail.getText().toString();
+        String identificacion = txtIdentificacion.getText().toString();
+
+        String mensaje = "";
+
+        if (celular.equals("")) {
+            mensaje = mensaje + "* Número de celular \n";
+        }
+
+        if ( email.equals("")){
+            mensaje = mensaje + "* Email  \n";
+        }
+
+        if (identificacion.equals("")) {
+            mensaje = mensaje +"* Número de identificación \n";
+        }
+
+        if(mensaje != ""){
+            AlertDialog alertDialog = new
+                    AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("¡Error!");
+            alertDialog.setMessage("Ingrese \n" + mensaje);
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.guest_qr.R;
+import com.example.guest_qr.menuIzquierdo;
 
 
 public class home extends Fragment {
@@ -24,6 +25,7 @@ public class home extends Fragment {
     public home() {
         // Required empty public constructor
     }
+
 
 
     @Override

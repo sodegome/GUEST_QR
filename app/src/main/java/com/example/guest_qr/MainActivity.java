@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 AlertDialog alertDialog = new
                         AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle("Alerta");
